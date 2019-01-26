@@ -13,6 +13,7 @@ namespace VendasWebMvc.Models
         public DateTime DataDeNascimento { get; set; }
         public double SalarioBase { get; set; }
         public Departamento departamento { get; set; }
+        public int DepartamentoId { get; set; }
         public ICollection<RegistroDeVendas> registroVendas { get; set; } = new List<RegistroDeVendas>();
 
         public Vendedor()
