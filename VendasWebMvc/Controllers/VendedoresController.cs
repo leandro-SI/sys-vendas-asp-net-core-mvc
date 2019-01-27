@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using VendasWebMvc.Models;
+using VendasWebMvc.Models.ViewModels;
 using VendasWebMvc.Services;
+
 
 namespace VendasWebMvc.Controllers
 {
@@ -12,10 +14,14 @@ namespace VendasWebMvc.Controllers
     {
 
         private readonly SellerService _sellerService;
+        private readonly DepartmentService _departmentService;
 
-        public VendedoresController(SellerService sellerService)
+
+
+        public VendedoresController(SellerService sellerService, DepartmentService departmentService)
         {
             _sellerService = sellerService;
+            _departmentService = departmentService;
         }
 
         public IActionResult Index()
@@ -26,7 +32,9 @@ namespace VendasWebMvc.Controllers
 
         public IActionResult Create()
         {
-            return View();
+            var departamento = _departmentService.RetornarDepartamentos();
+            var viewModel = new SellerFormViewModel { Departamentos = departamento };
+            return View(viewModel);
         }
 
         [HttpPost]

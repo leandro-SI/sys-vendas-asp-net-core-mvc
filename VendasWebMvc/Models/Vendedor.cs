@@ -12,7 +12,7 @@ namespace VendasWebMvc.Models
         public string Email { get; set; }
         public DateTime DataDeNascimento { get; set; }
         public double SalarioBase { get; set; }
-        public Departamento departamento { get; set; }
+        public Departamento Departamento { get; set; }
         public int DepartamentoId { get; set; }
         public ICollection<RegistroDeVendas> registroVendas { get; set; } = new List<RegistroDeVendas>();
 
@@ -27,7 +27,7 @@ namespace VendasWebMvc.Models
             Email = email;
             DataDeNascimento = dataDeNascimento;
             SalarioBase = salarioBase;
-            this.departamento = departamento;
+            this.Departamento = departamento;
         }
 
         public void AdicionaVendas(RegistroDeVendas venda)
