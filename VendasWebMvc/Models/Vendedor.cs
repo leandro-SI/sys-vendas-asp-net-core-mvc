@@ -9,7 +9,12 @@ namespace VendasWebMvc.Models
     public class Vendedor
     {
         public int Id { get; set; }
+
+        [Required(ErrorMessage = "Name requerido")]
+        [StringLength(60, MinimumLength = 3, ErrorMessage = "Tamanho entre 3 e 60")]
         public string Nome { get; set; }
+
+        [EmailAddress(ErrorMessage = "Email required")]
         public string Email { get; set; }
 
         [Display(Name = "Data de Nascimento")]
@@ -19,6 +24,7 @@ namespace VendasWebMvc.Models
 
         [Display(Name = "Salário Base")]
 
+        [Range(100.00, 5000.00, ErrorMessage = "Olha o range")]
         [DisplayFormat(DataFormatString = "{0:F2}")]
         public double SalarioBase { get; set; }
         public Departamento Departamento { get; set; }
