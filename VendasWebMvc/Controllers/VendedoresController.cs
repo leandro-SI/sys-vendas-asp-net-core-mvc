@@ -25,42 +25,42 @@ namespace VendasWebMvc.Controllers
             _departmentService = departmentService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var list = _sellerService.RetorneTodos();
+            var list = await _sellerService.RetorneTodosAsync();
             return View(list);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var departamento = _departmentService.RetornarDepartamentos();
+            var departamento = await _departmentService.RetornarDepartamentosAsync();
             var viewModel = new SellerFormViewModel { Departamentos = departamento };
             return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Vendedor vendedor)
+        public async Task<IActionResult> Create(Vendedor vendedor)
         {
             if (!ModelState.IsValid)
             {
-                var departamento = _departmentService.RetornarDepartamentos();
+                var departamento = await _departmentService.RetornarDepartamentosAsync();
                 var viewModel = new SellerFormViewModel { Vendedor = vendedor, Departamentos = departamento };
                 return View(viewModel);
             }
 
-            _sellerService.InserirVendedor(vendedor);
+            await _sellerService.InserirVendedorAsync(vendedor);
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not Provided" });
             }
 
-            var obj = _sellerService.FindById(id.Value);
+            var obj = await _sellerService.FindByIdAsync(id.Value);
 
             if(obj == null)
             {
@@ -72,20 +72,20 @@ namespace VendasWebMvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _sellerService.Remove(id);
+            await _sellerService.RemoveAsync(id);
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not Provided" });
             }
 
-            var obj = _sellerService.FindById(id.Value);
+            var obj = await _sellerService.FindByIdAsync(id.Value);
 
             if(obj == null)
             {
@@ -95,21 +95,21 @@ namespace VendasWebMvc.Controllers
             return View(obj);
         }
 
-        public IActionResult Edit(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not Provided" });
             }
 
-            var obj = _sellerService.FindById(id.Value);
+            var obj = await _sellerService.FindByIdAsync(id.Value);
 
             if (obj == null)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not Found" });
             }
 
-            List<Departamento> departamentos = _departmentService.RetornarDepartamentos();
+            List<Departamento> departamentos = await _departmentService.RetornarDepartamentosAsync();
             SellerFormViewModel viewModel = new SellerFormViewModel { Vendedor = obj, Departamentos = departamentos };
 
             return View(viewModel);
@@ -118,12 +118,12 @@ namespace VendasWebMvc.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, Vendedor vendedor)
+        public async Task<IActionResult> Edit(int id, Vendedor vendedor)
         {
 
             if (!ModelState.IsValid)
             {
-                var departamento = _departmentService.RetornarDepartamentos();
+                var departamento = await _departmentService.RetornarDepartamentosAsync();
                 var viewModel = new SellerFormViewModel { Vendedor = vendedor, Departamentos = departamento };
                 return View(viewModel);
             }
@@ -135,7 +135,7 @@ namespace VendasWebMvc.Controllers
 
             try
             {
-                _sellerService.Update(vendedor);
+                await _sellerService.UpdateAsync(vendedor);
                 return RedirectToAction(nameof(Index));
             }
             catch (NotFoundException e)

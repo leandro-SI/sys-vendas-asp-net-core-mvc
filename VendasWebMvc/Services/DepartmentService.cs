@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VendasWebMvc.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace VendasWebMvc.Services
 {
@@ -15,9 +16,14 @@ namespace VendasWebMvc.Services
             _context = context;
         }
 
-        public List<Departamento> RetornarDepartamentos()
+        //public List<Departamento> RetornarDepartamentos()
+        //{
+        //    return _context.Departamento.OrderBy(x => x.Name).ToList();
+        //}
+
+        public async Task<List<Departamento>> RetornarDepartamentosAsync()
         {
-            return _context.Departamento.OrderBy(x => x.Name).ToList();
+            return await _context.Departamento.OrderBy(x => x.Name).ToListAsync();
         }
     }
 }
